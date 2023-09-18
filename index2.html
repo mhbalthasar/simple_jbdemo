@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>基因组浏览器</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+	</head>
+	<body>
+		<div class="navbar">
+			导航条-内部调用方式：
+			<a href="#" onclick="goto_browse('Genes','ctgB:6050..6079');return false;">ctgB:6050-6079</a>
+			<a href="#" onclick="goto_browse('gff3tabix_genes','ctgA:7050..7079');return false;">ctgA:7050-7079</a>
+			<br/>
+			导航条-外部调用方式：
+			<a href="?tracks=Genes&loc=ctgB:6050..6079">ctgB:6050-6079</a>
+			<a href="?tracks=gff3tabix_genes&loc=ctgA:7050..7079">ctgA:7050-7079</a>
+		</div>
+		<iframe name="jbrowse" class="jframe" id="jbrowse"></iframe>
+		<script>
+			function get_qs(name,defvalue=null) {
+			    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+			    var r = window.location.search.substr(1).match(reg);
+			    if (r != null) {
+			        return unescape(r[2]);
+			    }
+			    return defvalue;
+			}
+			function goto_browse(tracks,loc){
+				var file="/jb_umd/jbrowse.html";
+				var params=[
+					"config=/jb_data%2Fvolvox%2Fconfig.json",
+					"assembly=volvox",
+					"loc="+loc
+					]
+				var jtracks=[
+					"volvox_refseq",
+					"volvox_sv_test"
+					]
+				jtracks = jtracks.concat(tracks.split(","));
+				params.push("tracks="+jtracks.join(","));
+				qs=params.join("&");
+				var url=file+"?"+qs;
+				document.getElementById("jbrowse").src=url;
+			}
+		</script>
+		<style>
+			* {
+				margin:0;
+				padding:0
+			}
+			.navbar{
+				display:block;
+				width:100%;
+				height:100px;
+				background:#eee;
+				line-height:50px;
+			}
+			.navbar a{
+				display: inline-block;
+				width: 200px;
+				height: 50px;
+				text-align: center;
+				line-height: 50px;
+				color: #33F;
+				font-weight: bolder;
+			}
+			.navbar a:hover{
+				background:#ccc;
+			}
+			.jframe{
+				width:100%;
+				height:calc( 100vh - 100px );
+				border:none;
+			}
+		</style>
+		<script>
+			var qs_tracks=get_qs("tracks","");
+			var qs_loc=get_qs("loc","ctgA:1..6079");
+			goto_browse(qs_tracks,qs_loc);
+		</script>
+	</body>
+</html>
