@@ -35,7 +35,7 @@
 					"volvox_refseq",
 					"volvox_sv_test"
 					]
-				jtracks = jtracks.concat(tracks.split(","));
+				if(tracks.length>0 && tracks.split(",").length>0) jtracks = jtracks.concat(tracks.split(","));
 				params.push("tracks="+jtracks.join(","));
 				qs=params.join("&");
 				var url=file+"?"+qs;

@@ -25,5 +25,17 @@
 			display:none;
 		}
 		</style>
+		<script>
+			/*编程强制打开Tracks菜单*/
+			function openTrack(){
+				var TrackBtn = document.querySelector('button[value^="track_select"]')
+				if(TrackBtn == null){
+					setTimeout("openTrack()",1000);
+				}else{
+					TrackBtn.click();
+				}
+			}
+			setTimeout("openTrack()",1000)
+		</script>
 	</body>
 </html>
